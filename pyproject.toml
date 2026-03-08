@@ -5,9 +5,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "PyPep3"                  # Required
+name = "pycea"                  # Required
 version = "0.1.0"               # Required
-description = "My awesome Python package"
+description = "Chemical Equilibrium Analysis for Rocket Propulsion"
 requires-python = ">=3.9"        # Recommended
 authors = [{name = "Your Name", email = "you@example.com"}]
 

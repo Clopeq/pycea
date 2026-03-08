@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="PyPep3",                  # Package name
+    name="pycea",                  # Package name
     version="0.1.0",                    # Version
     author="Sebastian Król",
     # author_email="you@example.com",
-    description="A python version of ProPep",
+    description="Chemical Equilibrium Analysis for Rocket Propulsion",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/Clopeq/PyPep3.git",
