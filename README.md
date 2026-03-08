@@ -11,10 +11,9 @@ It provides a clean API to compute:
 ## Installation
 
 ```bash
-pip install git+https://github.com/Clopeq/PyPep3.git
+pip install git+https://github.com/Clopeq/pycea.git
 ```
 
-Note: the repository URL currently contains `PyPep3`, but the package/import name is `pycea`.
 
 ## Requirements
 
