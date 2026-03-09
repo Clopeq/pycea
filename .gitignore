@@ -208,6 +208,7 @@ __marimo__/
 
 # Project-local artifacts not part of minimal package distribution
 data/
+!src/pycea/data/
 scripts/
 extract_species.py
 update_thermo.py
@@ -217,4 +218,3 @@ tests/streamlit/
 tests/output.txt
 tests/propy.yaml
 tests/gri30_ABS.yaml
-src/PyPep3/
