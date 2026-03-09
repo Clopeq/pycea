@@ -9,8 +9,19 @@ st.title("Equilibruim solver")
 
 st.header("Propellant composition")
 
-fuels = ["ABS", "PARAFIN", "PLA", "PETG", "EPOXY", "SORBITOL", "SUCROSE", "DEXTROSE"]
-oxidizers = ["NITROUS OXIDE", "HYDROGEN PEROXIDE", "OXYGEN"]
+
+
+# fuels = ["ABS", "PARAFIN", "PLA", "PETG", "EPOXY", "SORBITOL", "SUCROSE", "DEXTROSE"]
+# oxidizers = ["NITROUS OXIDE", "HYDROGEN PEROXIDE", "OXYGEN"]
+
+fuels = []
+oxidizers = []
+
+cea = pc.CEA()
+
+for sp in cea.species_all:
+    fuels.append(sp)
+
 pressure_units = ["bar", "Pa", "psi", "MPa"]
 pressure_units_dict = {"bar":1e5, "Pa":1, "psi":6895, "MPa":10e5}
 
