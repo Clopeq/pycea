@@ -257,9 +257,9 @@ class CEA:
     
     def __init__(
         self,
-        thermo_file: str = "gri30.yaml",
-        chamber_pressure: float = 1e5,
-        ambient_pressure: float = 101325
+        chamber_pressure: float = 10e5,
+        ambient_pressure: float = 101325,
+        thermo_file: str = "../data/thermo.yaml"
     ) -> None:
         """
         Initialize Chemical Equilibrium Analysis calculator.
