@@ -27,3 +27,7 @@ where = ["src"]
 # Or equivalently (more explicit):
 # [tool.setuptools.packages]
 # find = {where = ["src"]}
+
+# Include data files in the package
+[tool.setuptools.package-data]
+pycea = ["data/*.yaml", "data/*.txt"]
