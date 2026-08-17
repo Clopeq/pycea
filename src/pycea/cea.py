@@ -127,7 +127,7 @@ class CEA:
         self._sim.TP = temperature, pressure
 
         try:
-            self._sim.equilibrate("HP")
+            self._sim.equilibrate("HP", max_steps=5000, max_iter=1000)
         except ct.CanteraError as e:
             logger.error("%s._equilibrate(): equilibration failed — %s", self.__class__.__name__, e)
             raise CEAError(f"Failed to equlibrate: {e}") from e
