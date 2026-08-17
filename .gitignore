@@ -9,6 +9,7 @@ wheels/
 *.egg-info
 .env
 
+
 # Virtual environments
 .venv/
 venv/
