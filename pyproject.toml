@@ -1,0 +1,41 @@
+[project]
+name = "pycea"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Sebastian Król" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "cantera>=3.2.0",
+    "cliscreen",
+    "matplotlib>=3.11.1",
+    "numpy>=2.5.1",
+    "plotly>=6.9.0",
+    "pyqtgraph>=0.14.0",
+    "pyside6>=6.11.1",
+    "rocketry-formulas",
+    "scipy>=1.18.0",
+]
+
+[project.scripts]
+pycea = "pycea.app:main"
+
+[build-system]
+requires = ["uv_build>=0.12.1,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+rocketry-formulas = { git = "https://github.com/Clopeq/Rocketry_formulas.git" }
+cliscreen = { git = "https://github.com/Clopeq/cliscreen.git" }
+
+# pyproject.toml
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]

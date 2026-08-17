@@ -1,0 +1,55 @@
+# my_subset.yaml
+
+metadata:
+  version: "0.1.1"
+
+description: |-
+  - cp0: field is only required when given species exists only on the reactant side 
+  (trace/solver noise amounts on the products side) and the reactants are in their standard state (298.15 K)
+  If the reactant tamperature varies significantly form standard temperature, 
+  then the cp0: field is required for accurate results. (cp0: defualts to 0 J/mol/K)
+  - s0: field can be ommited as long as species only exists on reactant side
+  (trace/solver noise amounts on the products side)
+  - h0: is mandatory
+
+
+
+phases:
+- name: gas
+  thermo: ideal-gas
+  elements: [O, H, C, N]
+  species: 
+  - gri30_highT.yaml/species: [H2, H, O, O2, CH4,
+      CO, CO2, HCO, CH2O, CH2OH, CH3O, CH3OH, C2H, C2H2, C2H3, C2H4, C2H5,
+      C2H6, HCCO, CH2CO, HCCOH, N, NH, NH2, NH3, NNH, NO, NO2, N2O, HNO, CN,
+      HCN, H2CN, HCNN, HCNO, HOCN, HNCO, NCO, N2, C3H7, C3H8, CH2CHO,
+      CH3CHO]
+  - species: [ABS, ABS(wet), PLA, PETG, Sorbitol]
+
+species:
+- name: ABS
+  composition: {C: 7.1909, H: 7.2619, N: 0.3277, O: 0.0268}   # <- your actual elemental ratios
+  thermo:
+    model: constant-cp
+    h0: 71.701 kJ/mol      # <- your ΔH°f (or HHV-derived value)
+- name: ABS(wet)
+  composition: {C: 7.1597, H: 7.2304, N: 0.32263, O: 0.0267}   # <- your actual elemental ratios
+  thermo:
+    model: constant-cp
+    h0: 54.368 kJ/mol      # <- your ΔH°f (or HHV-derived value)
+- name: PLA
+  composition: {C: 4.5500, H: 5.2827, N: 0.0462, O: 2.0902}   # <- your actual elemental ratios
+  thermo:
+    model: constant-cp
+    h0: -801.104 kJ/mol      # <- your ΔH°f (or HHV-derived value)
+- name: PETG
+  composition: {C: 5.8113, H: 4.5238, N: 0.0454, O: 1.5005}   # <- your actual elemental ratios
+  thermo:
+    model: constant-cp
+    h0: -528.173 kJ/mol      # <- your ΔH°f (or HHV-derived value)
+- name: Sorbitol
+  composition: {C: 6, H: 14, O: 6}
+  thermo:
+    model: constant-cp
+    h0: -1353.7 kJ/mol
+    cp0: 241.43 J/mol/K

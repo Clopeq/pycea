@@ -1,0 +1,27 @@
+{
+    "Oxidizers": [
+        {
+            "name": "Nitrous Oxide",
+            "value": "N2O"
+        },
+        {
+            "name": "Oxygen (gaseous)",
+            "value": "O2",
+            "value2": "O2"
+        }
+    ],
+    "Fuels": [
+        {
+            "name": "ABS",
+            "value": 123
+        },
+        {
+            "name": "PLA",
+            "value": "PLA"
+        },
+        {
+            "name": "PETG",
+            "value": "PETG"
+        }
+    ]
+}
