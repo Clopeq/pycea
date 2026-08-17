@@ -34,7 +34,7 @@ def main():
     menu.run()
 
 def run(fuel: str, oxidizer: str, pressure_list: float, OF_list: float, var_to_print: str = "Isp"):
-    cea = pycea.CEA(fuel, oxidizer, "./data/filaments.yaml")
+    cea = pycea.CEA(fuel, oxidizer, "./src/pycea/data/filaments.yaml")
 
     start = time.perf_counter()
     results = cea.run(OF_list, pressure_list)
