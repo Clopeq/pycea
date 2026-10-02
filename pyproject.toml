@@ -12,6 +12,7 @@ dependencies = [
     "cliscreen",
     "matplotlib>=3.11.1",
     "numpy>=2.5.1",
+    "pandas>=3.0.5",
     "plotly>=6.9.0",
     "pyqtgraph>=0.14.0",
     "pyside6>=6.11.1",

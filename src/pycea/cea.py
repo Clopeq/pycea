@@ -52,6 +52,12 @@ class CEAResults:
     Cf: np.ndarray
     Cf_vac: np.ndarray
 
+@dataclass
+class CEAOutput:
+    metadata: CEAMetadata
+    inputs: CEAInputs
+    results: CEAResults
+
 class CEA:
     """ Chemical Equilibrium solver with Applications. This package uses Cantera behind the scenes"""
 
@@ -62,10 +68,10 @@ class CEA:
             T=300,
             Pa=101325,
             P=None,
-            fuel=None,
+            fuel=fuel,
             OF=None,
-            mech_file=None,
-            ox=None,
+            mech_file=mech_file,
+            ox=oxidizer,
         )
 
         shape = (0,)
@@ -83,6 +89,8 @@ class CEA:
             date = self._now()
         )
 
+        self._output = CEAOutput(self._metadata, self._inputs, self._results)
+
         self._sim = ct.Solution(mech_file)
         species = self._sim.species_names
 
@@ -91,9 +99,9 @@ class CEA:
             raise InvalidSpeciesError(f"{fuel!r} is not a valid species in the current mechanism")
         self._fuel = fuel
 
-        if oxidizer not in species:
-            logger.warning("%r not found in species database", oxidizer)
-            raise InvalidSpeciesError(f"{oxidizer!r} is not a valid species in the current mechanism")
+        # if oxidizer not in species:
+        #     logger.warning("%r not found in species database", oxidizer)
+        #     raise InvalidSpeciesError(f"{oxidizer!r} is not a valid species in the current mechanism")
         self._ox = oxidizer
 
         self._ambient_pressure = 101325
@@ -104,6 +112,7 @@ class CEA:
     def _equilibrate(self,
             OF: float,
             pressure: float, 
+            exhaust_pressure: float=101325,
             temperature: float = 300
             ) -> CEAResults:
         """
@@ -123,11 +132,20 @@ class CEA:
 
         F = 1/(1+OF)
         ox = OF/(1+OF)
-        self._sim.Y = self._fuel+f":{F}" + ", "+self._ox+f":{ox}"
+        if ":" in self._fuel and ":" in self._ox:
+            self._set_OF_ratio(OF, self._fuel, self._ox)
+        elif ":" in self._fuel:
+            self._set_OF_ratio(OF, fuel=self._fuel)
+        elif ":" in self._ox:
+            self._set_OF_ratio(OF, oxidizer=self._ox)
+        else:
+            self._set_OF_ratio(OF)
+
         self._sim.TP = temperature, pressure
+        #self._sim.Y = self._fuel+f":{F}" + ", "+self._ox+f":{ox}"
 
         try:
-            self._sim.equilibrate("HP", solver="vcs")
+            self._sim.equilibrate("HP", solver="auto")
         except ct.CanteraError as e:
             logger.error("%s._equilibrate(): equilibration failed — %s", self.__class__.__name__, e)
             raise CEAError(f"Failed to equlibrate: {e}") from e
@@ -165,7 +183,7 @@ class CEA:
             OF_list: list[float],
             pressure_list: list[float], 
             temperature: float = 300
-        ) -> CEAResults:
+        ) -> CEAOutput:
 
         """
             Run equlibrate() for a range of OF and pressures, for single run
@@ -199,13 +217,33 @@ class CEA:
         self._results = CEAResults(**data)
         self._metadata.date = self._now()
 
-        return self._results
+        self._output = CEAOutput(self._metadata, self._inputs, self._results)
+
+        return self._output
 
 
 
     def _check_mech_file(self, mech_file: str) -> bool:
         """ Check if the provided mechanism file (.yaml) exist and if it is valid Cantera mechanism file. """
         pass
+
+
+    def _set_OF_ratio(self, OF: float, fuel: str = None, oxidizer: str = None) -> ct.Quantity:
+        if fuel == None:
+            fuel = self._fuel+f":{1/(1+OF)}"
+        if oxidizer == None:
+            oxidizer = self._ox+f":{OF/(1+OF)}"
+
+        self._sim.Y = ""
+        f = ct.Quantity(self._sim)
+        f.Y = fuel
+        f.mass = 1
+        ox = ct.Quantity(self._sim,)
+        ox.Y = oxidizer
+        ox.mass = OF
+        #self._sim.Y = f+ox
+        mix = f+ox
+        return mix
 
     def print_chart(self, Y: str, name: str = "output.png", output_folder: str = "./output") -> None:
         valid_names = [f.name for f in fields(CEAResults)]
@@ -276,6 +314,7 @@ class CEA:
                     for name in field_names:
                         row.append(getattr(self._results, name)[i, i2])
                     writer.writerow(row)
+
 
     def save_hdf5(self):
         pass
