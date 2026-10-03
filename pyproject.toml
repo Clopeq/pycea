@@ -16,7 +16,7 @@ dependencies = [
     "plotly>=6.9.0",
     "pyqtgraph>=0.14.0",
     "pyside6>=6.11.1",
-    "rocketry-formulas",
+    "rocketry-formulas @ https://github.com/Clopeq/Rocketry_formulas/archive/refs/heads/main.zip",
     "scipy>=1.18.0",
 ]
 
