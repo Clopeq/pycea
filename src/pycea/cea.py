@@ -8,6 +8,7 @@ from dataclasses import dataclass, fields
 import logging
 import matplotlib.pyplot as plt
 import csv
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +63,7 @@ class CEA:
     """ Chemical Equilibrium solver with Applications. This package uses Cantera behind the scenes"""
 
 
-    def __init__(self, fuel: str, oxidizer: str, mech_file: str) -> None:
+    def __init__(self, fuel: str, oxidizer: str, mech_file: str = None) -> None:
         __version__ = version("pycea")
         self._inputs = CEAInputs(
             T=300,
@@ -88,6 +89,9 @@ class CEA:
             software_version = __version__,
             date = self._now()
         )
+
+        if mech_file == None:
+            mech_file = Path(__file__).resolve().parent / "data/filametns.yaml"
 
         self._output = CEAOutput(self._metadata, self._inputs, self._results)
 
