@@ -91,7 +91,7 @@ class CEA:
         )
 
         if mech_file == None:
-            mech_file = Path(__file__).resolve().parent / "data/filametns.yaml"
+            mech_file = Path(__file__).resolve().parent / "data/filaments.yaml"
 
         self._output = CEAOutput(self._metadata, self._inputs, self._results)
 
